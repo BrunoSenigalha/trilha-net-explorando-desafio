@@ -8,47 +8,25 @@ List<Pessoa> hospedes = new List<Pessoa>();
 
 Console.WriteLine("------Hotel Sytem------\n");
 
-// Cadastro de Hóspedes
-Console.Write("Informe o nome do hóspede: ");
-string nomeHospede = Console.ReadLine();
+Cadastro cadastroReserva = new Cadastro();
 
-// Adicionando o primeiro Hóspede
-Pessoa pessoa = new Pessoa(nome: nomeHospede);
-hospedes.Add(pessoa);
+// Chamando o método para cadastramento de hóspedes
+hospedes = cadastroReserva.CadastrandoHospede();
 
-// Laço para receber mais hóspedes
-while (true)
-{
-    // Escolhe a oção de adicionar um novo hóspede ou não
-    Console.WriteLine("Gostaria de cadastrar um novo hóspede? (s/n) ");
-    string opcao = Console.ReadLine().ToLower();
-
-    if (opcao == "s")
-    {
-        Console.Clear();
-        Console.Write("Informe o nome do hóspede: ");
-        nomeHospede = Console.ReadLine();
-
-        pessoa = new Pessoa(nome: nomeHospede);
-        hospedes.Add(pessoa);
-    }
-    else
-    {
-        break;
-    }
-}
-
-// Cria a suíte
-Suite suite = new Suite(tipoSuite: "Premium", capacidade: 4, valorDiaria: 30);
+// Recebendo uma tupla com os valores para cadastrar a Suíte
+var (tipoSuite, capacidade, valorDiario) = cadastroReserva.CadastroSuite();
+Suite suite = new Suite(tipoSuite, capacidade, valorDiario);
 
 // Informa a quantidade de dias da reserva
-Console.WriteLine("Informe a quantidade de dias da reserva");
+Console.WriteLine("Informe a quantidade de dias da reserva: ");
 int diasReservados = Convert.ToInt32(Console.ReadLine());
 
 // Cria uma nova reserva, passando a suíte e os hóspedes
 Reserva reserva = new Reserva(diasReservados: diasReservados);
 reserva.CadastrarSuite(suite);
 reserva.CadastrarHospedes(hospedes);
+
+Console.Clear();
 
 // Exibe a quantidade de hóspedes e o valor da diária
 Console.WriteLine($"Hóspedes: {reserva.ObterQuantidadeHospedes()}");
